@@ -15,6 +15,7 @@ import { backendServer } from '../../common/configs/config';
 import { Cookie } from '../../common/decorators/cookie.decorator';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 import { AuthGuard } from '../../common/decorators/guards/authGuard.decorator';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
