@@ -27,7 +27,7 @@ export class CommunityServices_Service extends BaseEntityService<CommunityServic
     });
 
     if (service) {
-      new ApiException(
+      throw new ApiException(
         HttpStatus.CONFLICT,
         'UserExceptions',
         UserExceptions.UserAlreadyExists,
@@ -47,7 +47,7 @@ export class CommunityServices_Service extends BaseEntityService<CommunityServic
 
     const serviceEntity = await this.save({
       name: createCommunityServiceDto.name,
-      user: { email: createCommunityServiceDto.email },
+      user: { uuid: userDto.uuid },
       type: createCommunityServiceDto.type,
       description: createCommunityServiceDto.description,
     });

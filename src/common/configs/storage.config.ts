@@ -1,7 +1,9 @@
 import { get } from 'env-var';
+import { resolve } from 'path';
+import * as process from 'process';
 
 export const storageConfig = {
-  path: get('STORAGE_PATH').required().asString(),
+  path: resolve(process.cwd(), get('STORAGE_PATH').required().asString()),
   //todo maxSize: get('MAX_SIZE').required().asIntPositive(),
   nameLength: get('FILENAME_LENGTH').default(10).asIntPositive(),
   defaultAvatar: get('DEFAULT_AVATAR').required().asString(),

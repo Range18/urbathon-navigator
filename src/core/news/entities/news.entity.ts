@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -15,7 +16,7 @@ export class NewsEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   readonly uuid: string;
 
-  @OneToOne(() => CommunityServiceEntity, (service) => service.news, {
+  @ManyToOne(() => CommunityServiceEntity, (service) => service.news, {
     nullable: false,
   })
   @JoinColumn({ name: 'serviceId' })
@@ -29,9 +30,6 @@ export class NewsEntity extends BaseEntity {
 
   @Column({ nullable: false })
   address: string;
-
-  @Column({ nullable: true })
-  mainImageId?: string;
 
   @OneToMany(() => FileEntity, (file) => file.news, { nullable: true })
   files?: FileEntity[];

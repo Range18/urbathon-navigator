@@ -14,7 +14,7 @@ import { AuthGuard } from '../../common/decorators/guards/authGuard.decorator';
 import { IsVerified } from '../../common/decorators/guards/isVerified.decorator';
 import { RolesGuard } from '../../common/decorators/guards/roleGuard.decorator';
 
-@Controller('community-services')
+@Controller('services')
 export class CommunityServicesController {
   constructor(
     private readonly communityServicesService: CommunityServices_Service,

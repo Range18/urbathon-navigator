@@ -24,7 +24,7 @@ export class ReportsService extends BaseEntityService<Report> {
     });
 
     if (!user) {
-      new ApiException(
+      throw new ApiException(
         HttpStatus.NOT_FOUND,
         'UserExceptions',
         UserExceptions.UserNotFound,

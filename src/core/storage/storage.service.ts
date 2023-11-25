@@ -11,9 +11,9 @@ import { resolve } from 'path';
 import { unlink } from 'fs/promises';
 import * as process from 'process';
 import { storageConfig } from '../../common/configs/storage.config';
-import NewsExceptions = AllExceptions.NewsExceptions;
-import FileExceptions = AllExceptions.FileExceptions;
 import { createReadStream } from 'fs';
+import FileExceptions = AllExceptions.FileExceptions;
+import NewsExceptions = AllExceptions.NewsExceptions;
 
 @Injectable()
 export class StorageService extends BaseEntityService<FileEntity> {
@@ -26,17 +26,30 @@ export class StorageService extends BaseEntityService<FileEntity> {
   }
 
   async uploadFile(createFileEntityDto: CreateFileEntityDto) {
-    const news = await this.newsService.findOne({
-      where: { uuid: createFileEntityDto.newsId },
-    });
-
-    if (!news) {
-      new ApiException(
+    if (!createFileEntityDto.newsId) {
+      throw new ApiException(
         HttpStatus.NOT_FOUND,
         'NewsExceptions',
         NewsExceptions.NewsNotFound,
       );
     }
+    const news = await this.newsService.findOne({
+      where: { uuid: createFileEntityDto?.newsId },
+      relations: { files: true },
+    });
+
+    if (!news) {
+      throw new ApiException(
+        HttpStatus.NOT_FOUND,
+        'NewsExceptions',
+        NewsExceptions.NewsNotFound,
+      );
+    }
+
+    if (news.files.length != 0) {
+      await this.removeOne(news.files[0]);
+    }
+
     const file = await this.save({
       filename: createFileEntityDto.filename,
       originalName: createFileEntityDto.originalName,
@@ -45,10 +58,7 @@ export class StorageService extends BaseEntityService<FileEntity> {
       news: news,
     });
 
-    if (!news.mainImageId) {
-      news.mainImageId = file.uuid;
-    }
-
+    news.files.push(file);
     await this.newsService.save(news);
 
     return file;
@@ -60,7 +70,7 @@ export class StorageService extends BaseEntityService<FileEntity> {
     });
 
     if (!news) {
-      new ApiException(
+      throw new ApiException(
         HttpStatus.NOT_FOUND,
         'NewsExceptions',
         NewsExceptions.NewsNotFound,
@@ -77,20 +87,18 @@ export class StorageService extends BaseEntityService<FileEntity> {
       });
     });
 
-    if (!news.mainImageId) {
-      news.mainImageId = (await fileEntities[0]).uuid;
-    }
-
     await this.newsService.save(news);
 
     return fileEntities;
   }
 
-  async getFileStream(filename: string): Promise<StreamableFile> {
+  async getFileStream(
+    filename: string,
+  ): Promise<{ stream: StreamableFile; mimetype: string }> {
     const file = await this.findOne({ where: { filename } });
 
     if (!file) {
-      new ApiException(
+      throw new ApiException(
         HttpStatus.NOT_FOUND,
         'FileExceptions',
         FileExceptions.FileNotFound,
@@ -98,10 +106,13 @@ export class StorageService extends BaseEntityService<FileEntity> {
     }
 
     const readableFile = createReadStream(
-      resolve(process.cwd(), storageConfig.path, file.filename),
+      resolve(storageConfig.path, file.filename),
     );
 
-    return new StreamableFile(readableFile);
+    return {
+      stream: new StreamableFile(readableFile),
+      mimetype: file.mimetype,
+    };
   }
 
   async removeOne(
@@ -109,7 +120,7 @@ export class StorageService extends BaseEntityService<FileEntity> {
     throwError = false,
   ): Promise<FileEntity> {
     const file = await super.removeOne(optionsOrEntity, throwError);
-    await unlink(resolve(process.cwd(), storageConfig.path, file.filename));
+    await unlink(resolve(storageConfig.path, file.filename));
     return file;
   }
 }

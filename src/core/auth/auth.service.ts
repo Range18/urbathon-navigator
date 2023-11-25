@@ -66,7 +66,7 @@ export class AuthService {
       session.refreshToken,
       session.accessToken,
       session.sessionExpireAt,
-      userEntity.email,
+      userEntity.uuid,
     );
   }
 
@@ -84,8 +84,8 @@ export class AuthService {
     }
 
     const comparedPasswords = await bcrypt.compare(
-      user.password,
       loginUserDto.password,
+      user.password,
     );
 
     if (!comparedPasswords) {
@@ -103,7 +103,7 @@ export class AuthService {
       session.refreshToken,
       session.accessToken,
       session.sessionExpireAt,
-      user.email,
+      user.uuid,
     );
   }
 

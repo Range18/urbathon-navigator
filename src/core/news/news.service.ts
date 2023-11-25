@@ -17,7 +17,6 @@ export class NewsService extends BaseEntityService<NewsEntity> {
     @InjectRepository(NewsEntity)
     private readonly newsRepository: Repository<NewsEntity>,
     private readonly userService: UserService,
-    private readonly storageService: StorageService,
   ) {
     super(newsRepository);
   }
@@ -25,7 +24,10 @@ export class NewsService extends BaseEntityService<NewsEntity> {
     createNewsDto: CreateNewsDto,
     userId: string,
   ): Promise<NewsEntity> {
-    const user = await this.userService.findOne({ where: { uuid: userId } });
+    const user = await this.userService.findOne({
+      where: { uuid: userId },
+      relations: { service: true },
+    });
 
     if (!user) {
       throw new ApiException(
@@ -35,18 +37,17 @@ export class NewsService extends BaseEntityService<NewsEntity> {
       );
     }
 
-    const files: FileEntity[] = [];
-    for (const id of createNewsDto.images) {
-      files.push(await this.storageService.findOne({ where: { uuid: id } }));
-    }
+    // const files: { uuid: string }[] = [];
+    //
+    // for (const id of createNewsDto.images) {
+    //   files.push({ uuid: id });
+    // }
 
     return await this.save({
-      title: createNewsDto.tittle,
+      title: createNewsDto.title,
       text: createNewsDto.text,
       address: createNewsDto.address,
-      service: { user: user },
-      mainImageId: createNewsDto.mainImageId,
-      files: files,
+      service: user.service,
     });
   }
 }

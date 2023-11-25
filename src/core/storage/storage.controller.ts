@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Res,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
@@ -13,6 +14,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../../common/decorators/guards/authGuard.decorator';
 import { IsVerified } from '../../common/decorators/guards/isVerified.decorator';
 import { RolesGuard } from '../../common/decorators/guards/roleGuard.decorator';
+import { Response } from 'express';
 
 @Controller('storage')
 export class StorageController {
@@ -36,18 +38,29 @@ export class StorageController {
     });
   }
 
-  @RolesGuard('service', 'admin')
-  @IsVerified()
-  @AuthGuard()
-  @UseInterceptors(FilesInterceptor('files'))
-  @Post()
-  async uploadFiles(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body('newsId') newsId: string,
-  ) {
-    await this.storageService.uploadFiles(files, newsId);
-  }
+  // @RolesGuard('service', 'admin')
+  // @IsVerified()
+  // @AuthGuard()
+  // @UseInterceptors(FilesInterceptor('files'))
+  // @Post()
+  // async uploadFiles(
+  //   @UploadedFiles() files: Express.Multer.File[],
+  //   @Body('newsId') newsId: string,
+  // ) {
+  //   await this.storageService.uploadFiles(files, newsId);
+  // }
 
   @Get(':name')
-  async getFile(@Param('name') filename: string) {}
+  async getFile(
+    @Param('name') filename: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { stream, mimetype } = await this.storageService.getFileStream(
+      filename,
+    );
+
+    response.set('Content-Type', mimetype);
+
+    return stream;
+  }
 }

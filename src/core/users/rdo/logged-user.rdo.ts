@@ -9,7 +9,7 @@ export class LoggedUserRdo {
   @Exclude()
   readonly sessionExpireAt: Date;
 
-  readonly email: string;
+  readonly uuid: string;
 
   constructor(
     refreshToken: string,
@@ -20,6 +20,6 @@ export class LoggedUserRdo {
     this.refreshToken = refreshToken;
     this.accessToken = accessToken;
     this.sessionExpireAt = sessionExpireAt;
-    this.email = email;
+    this.uuid = email;
   }
 }

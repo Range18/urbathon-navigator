@@ -61,7 +61,7 @@ export class SessionService extends BaseEntityService<SessionEntity> {
         { expiresIn: jwtConfig.accessExpire.value },
       ),
       sessionExpireAt: expireAt,
-      email: user.email,
+      uuid: user.email,
     };
   }
 

@@ -2,7 +2,7 @@ import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreateNewsDto {
   @IsString()
-  readonly tittle: string;
+  readonly title: string;
 
   @IsString()
   readonly text: string;
@@ -12,9 +12,5 @@ export class CreateNewsDto {
 
   @IsString()
   @IsOptional()
-  mainImageId?: string;
-
-  @IsArray()
-  @IsOptional()
-  images?: string[];
+  preview?: string;
 }

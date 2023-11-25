@@ -35,7 +35,7 @@ export class VerificationService extends BaseEntityService<VerificationLinkEntit
     const linkEntity = await this.findOne({ where: { code } });
 
     if (!linkEntity) {
-      new ApiException(
+      throw new ApiException(
         HttpStatus.NOT_FOUND,
         'AuthExceptions',
         AuthExceptions.InvalidVerify,

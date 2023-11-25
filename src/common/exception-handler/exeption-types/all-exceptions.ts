@@ -5,6 +5,8 @@ export namespace AllExceptions {
     AccessToken = 'Access token expired',
     InvalidAccessToken = 'Invalid access token',
 
+    Forbidden = ' Forbidden',
+
     InvalidVerify = 'Verify link is not found',
   }
 

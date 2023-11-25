@@ -32,7 +32,7 @@ export class SessionController {
       newSession.refreshToken,
       newSession.accessToken,
       newSession.sessionExpireAt,
-      newSession.email,
+      newSession.uuid,
     );
   }
 }

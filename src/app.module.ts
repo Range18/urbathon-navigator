@@ -5,6 +5,9 @@ import { UserModule } from './core/users/user.module';
 import { AuthModule } from './core/auth/auth.module';
 import { SessionModule } from './core/session/session.module';
 import { VerificationModule } from './core/verification/verification.module';
+import { NewsModule } from './core/news/news.module';
+import { CommunityServicesModule } from './core/community_services/community_services.module';
+import { StorageModule } from './core/storage/storage.module';
 
 @Module({
   imports: [
@@ -13,6 +16,9 @@ import { VerificationModule } from './core/verification/verification.module';
     AuthModule,
     SessionModule,
     VerificationModule,
+    NewsModule,
+    CommunityServicesModule,
+    StorageModule,
   ],
   controllers: [],
   providers: [],

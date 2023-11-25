@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -30,6 +31,6 @@ export class CommunityServiceEntity extends BaseEntity {
   })
   description?: string;
 
-  @OneToOne(() => NewsEntity, (news) => news.service, { nullable: true })
+  @OneToMany(() => NewsEntity, (news) => news.service, { nullable: true })
   news?: NewsEntity[];
 }

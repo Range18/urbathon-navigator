@@ -32,5 +32,6 @@ export function fileFilter(
   if (!storageConfig.allowedMimetypes.includes(file.mimetype)) {
     callback(new Error('File type is forbidden'), false);
   }
+  callback(null, true);
   //todo max size
 }
