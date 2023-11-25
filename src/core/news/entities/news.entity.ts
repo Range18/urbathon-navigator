@@ -10,6 +10,7 @@ import {
 import { BaseEntity } from '../../../common/base.entity';
 import { FileEntity } from '../../storage/entity/file.entity';
 import { CommunityServiceEntity } from '../../community_services/entities/community_service.entity';
+import { PollEntity } from '../../polls/entities/poll.entity';
 
 @Entity('news')
 export class NewsEntity extends BaseEntity {
@@ -25,11 +26,14 @@ export class NewsEntity extends BaseEntity {
   @Column({ nullable: false })
   title: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'text', nullable: false })
   text: string;
 
   @Column({ nullable: false })
   address: string;
+
+  @OneToMany(() => PollEntity, (poll) => poll.post, { nullable: true })
+  polls?: PollEntity[];
 
   @OneToMany(() => FileEntity, (file) => file.news, { nullable: true })
   files?: FileEntity[];

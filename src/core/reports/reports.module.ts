@@ -5,9 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Report } from './entities/report.entity';
 import { UserModule } from '../users/user.module';
 import { UserEntity } from '../users/user.entity';
+import { SessionModule } from '../session/session.module';
+import { TokenModule } from '../token/token.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Report, UserEntity]), UserModule],
+  imports: [
+    TypeOrmModule.forFeature([Report, UserEntity]),
+    UserModule,
+    TokenModule,
+    SessionModule,
+  ],
   controllers: [ReportsController],
   providers: [ReportsService],
 })

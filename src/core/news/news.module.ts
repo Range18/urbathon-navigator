@@ -10,10 +10,16 @@ import { StorageModule } from '../storage/storage.module';
 import { FileEntity } from '../storage/entity/file.entity';
 import { SessionModule } from '../session/session.module';
 import { TokenModule } from '../token/token.module';
+import { PollEntity } from '../polls/entities/poll.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([NewsEntity, CommunityServiceEntity, FileEntity]),
+    TypeOrmModule.forFeature([
+      NewsEntity,
+      CommunityServiceEntity,
+      FileEntity,
+      PollEntity,
+    ]),
     UserModule,
     CommunityServicesModule,
     SessionModule,

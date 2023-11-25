@@ -26,7 +26,7 @@ export class CommunityServiceEntity extends BaseEntity {
   type: string; //Todo Typings
 
   @Column({
-    type: 'longtext',
+    type: 'text',
     nullable: true,
   })
   description?: string;
