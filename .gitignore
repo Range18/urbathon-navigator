@@ -36,6 +36,7 @@ lerna-debug.log*
 
 #Environment
 .env
+.env.production
 yarn.lock
 
 #Storage destination
