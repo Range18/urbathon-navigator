@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
 import { UserEntity } from '../../users/user.entity';
+import { NewsEntity } from '../../news/entities/news.entity';
 
 @Entity('community_services')
 export class CommunityServiceEntity extends BaseEntity {
@@ -28,4 +29,7 @@ export class CommunityServiceEntity extends BaseEntity {
     nullable: true,
   })
   description?: string;
+
+  @OneToOne(() => NewsEntity, (news) => news.service, { nullable: true })
+  news?: NewsEntity[];
 }

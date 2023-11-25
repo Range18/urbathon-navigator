@@ -43,6 +43,8 @@ export class CommunityServices_Service extends BaseEntityService<CommunityServic
       password: createCommunityServiceDto.password,
     });
 
+    await this.authService.logout(userDto.refreshToken);
+
     const serviceEntity = await this.save({
       name: createCommunityServiceDto.name,
       user: { email: createCommunityServiceDto.email },
