@@ -12,30 +12,38 @@ export class ReportsController {
   @IsVerified()
   @AuthGuard()
   @Post()
-  create(@Body() createReportDto: CreateReportDto) {
-    return this.reportsService.create(createReportDto);
+  async create(@Body() createReportDto: CreateReportDto) {
+    return await this.reportsService.create(createReportDto);
   }
 
   @Get()
-  findAll() {
-    return this.reportsService.find({});
+  async findAll() {
+    return await this.reportsService.find({});
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reportsService.findOne({ where: { uuid: id } });
+  async findOne(@Param('id') id: string) {
+    return await this.reportsService.findOne({ where: { uuid: id } });
   }
 
   @Get(':userId')
-  findAllUserId(@Param('userId') userId: string) {
-    return this.reportsService.findOne({ where: { user: { uuid: userId } } });
+  async findAllUserId(@Param('userId') userId: string) {
+    return await this.reportsService.findOne({
+      where: { user: { uuid: userId } },
+    });
   }
 
+  @Get(':address')
+  async findAllAddress(@Param('address') address: string) {
+    return await this.reportsService.findOne({
+      where: { address },
+    });
+  }
   @IsVerified()
   @AuthGuard()
   @Delete(':id')
-  remove(@Param('id') id: string, @User('uuid') uuid: string) {
-    return this.reportsService.removeOne({
+  async remove(@Param('id') id: string, @User('uuid') uuid: string) {
+    return await this.reportsService.removeOne({
       where: { uuid: id, user: { uuid } },
     });
   }
