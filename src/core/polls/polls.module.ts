@@ -7,6 +7,7 @@ import { PollEntity } from './entities/poll.entity';
 import { NewsModule } from '../news/news.module';
 import { SessionModule } from '../session/session.module';
 import { UserModule } from '../users/user.module';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UserModule } from '../users/user.module';
     NewsModule,
     SessionModule,
     UserModule,
+    TokenModule,
   ],
   controllers: [PollsController],
   providers: [PollsService],

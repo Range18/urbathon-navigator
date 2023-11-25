@@ -10,6 +10,8 @@ import {
 import { BaseEntity } from '../../../common/base.entity';
 import { NewsEntity } from '../../news/entities/news.entity';
 
+export type Option = { [key in string]: string[] };
+
 @Entity()
 export class PollEntity extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
@@ -19,7 +21,7 @@ export class PollEntity extends BaseEntity {
   title: string;
 
   @Column({ type: 'json', nullable: false })
-  options: { [key in string]: string[] };
+  options: Option;
 
   @ManyToOne(() => NewsEntity, (news) => news.polls, { nullable: false })
   @JoinColumn({ name: 'postId' })

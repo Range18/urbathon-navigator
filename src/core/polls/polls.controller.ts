@@ -6,18 +6,30 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PollsService } from './polls.service';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { UpdatePollDto } from './dto/update-poll.dto';
+import { GetPollDto } from './dto/get-poll.dto';
+import { User } from '../../common/decorators/User.decorator';
+import { AuthGuard } from '../../common/decorators/guards/authGuard.decorator';
 
 @Controller('polls')
 export class PollsController {
   constructor(private readonly pollsService: PollsService) {}
 
   @Post()
-  create(@Body() createPollDto: CreatePollDto) {
-    return this.pollsService.create(createPollDto);
+  async create(@Body() createPollDto: CreatePollDto) {
+    const poll = await this.pollsService.create(createPollDto);
+
+    return new GetPollDto(
+      poll.id,
+      poll.title,
+      poll.options,
+      poll.post.uuid,
+      poll.createdAt,
+    );
   }
 
   @Get()
@@ -28,6 +40,20 @@ export class PollsController {
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return await this.pollsService.findOne({ where: { id } });
+  }
+
+  @AuthGuard()
+  @Post('/:id/vote/')
+  async vote(
+    @Param('id') id: number,
+    @Query('option') option: string,
+    @User('uuid') uuid: string,
+  ) {
+    return await this.pollsService.vote({
+      pollId: id,
+      optionName: option,
+      userId: uuid,
+    });
   }
 
   // @Patch(':id')

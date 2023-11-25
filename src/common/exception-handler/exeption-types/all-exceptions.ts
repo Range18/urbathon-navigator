@@ -14,6 +14,11 @@ export namespace AllExceptions {
     FileNotFound = 'Files are not found',
   }
 
+  export enum PollExceptions {
+    PollNotFound = 'Poll is not found',
+    OptionNotFound = 'Option is not found',
+  }
+
   export enum NewsExceptions {
     NewsNotFound = 'News are not found',
   }

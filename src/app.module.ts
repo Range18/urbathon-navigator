@@ -9,12 +9,14 @@ import { NewsModule } from './core/news/news.module';
 import { CommunityServicesModule } from './core/community_services/community_services.module';
 import { StorageModule } from './core/storage/storage.module';
 import { ReportsModule } from './core/reports/reports.module';
+import { PollsModule } from './core/polls/polls.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     UserModule,
     ReportsModule,
+    PollsModule,
     AuthModule,
     SessionModule,
     VerificationModule,

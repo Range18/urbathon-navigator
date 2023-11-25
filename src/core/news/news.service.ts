@@ -37,12 +37,6 @@ export class NewsService extends BaseEntityService<NewsEntity> {
       );
     }
 
-    // const files: { uuid: string }[] = [];
-    //
-    // for (const id of createNewsDto.images) {
-    //   files.push({ uuid: id });
-    // }
-
     return await this.save({
       title: createNewsDto.title,
       text: createNewsDto.text,

@@ -35,7 +35,7 @@ export class NewsController {
       post.title,
       post.text,
       post.address,
-      post.files[0],
+      undefined,
       post.service,
     );
   }
