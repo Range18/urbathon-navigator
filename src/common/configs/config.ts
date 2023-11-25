@@ -13,7 +13,7 @@ export const frontendServer = {
   host: get('FRONTEND_HOST').default('localhost').asString(),
   port: get('FRONTEND _PORT').default(5000).asPortNumber(),
   secure: get('SECURE').default('true').asBool(),
-  url: 'https://localhost:5000',
+  url: 'http://localhost:3001',
 };
 
 export const jwtConfig = {

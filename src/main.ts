@@ -7,7 +7,6 @@ import { HttpExceptionFilter } from './common/exception-handler/exception.filter
 import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   app.enableCors({ credentials: true, origin: frontendServer.url });
   app.use(cookieParser());
 
