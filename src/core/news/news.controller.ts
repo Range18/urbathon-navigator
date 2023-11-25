@@ -15,6 +15,7 @@ import { IsVerified } from '../../common/decorators/guards/isVerified.decorator'
 import { RolesGuard } from '../../common/decorators/guards/roleGuard.decorator';
 import { User } from '../../common/decorators/User.decorator';
 import { UserInRequest } from '../../common/types/user-request.type';
+import { GetNewsRdo } from './dto/get-news.rdo';
 
 @Controller('news')
 export class NewsController {
@@ -27,18 +28,50 @@ export class NewsController {
   async create(
     @Body() createNewsDto: CreateNewsDto,
     @User() user: UserInRequest,
-  ) {
-    return await this.newsService.create(createNewsDto, user.uuid);
+  ): Promise<GetNewsRdo> {
+    const post = await this.newsService.create(createNewsDto, user.uuid);
+    return new GetNewsRdo(
+      post.uuid,
+      post.title,
+      post.text,
+      post.address,
+      post.files[0],
+      post.service,
+    );
   }
 
   @Get()
-  findAll() {
-    return this.newsService.find({});
+  async findAll() {
+    const posts = await this.newsService.find({
+      relations: { files: true, service: true },
+    });
+    return posts.map(
+      (post) =>
+        new GetNewsRdo(
+          post.uuid,
+          post.title,
+          post.text,
+          post.address,
+          post.files[0],
+          post.service,
+        ),
+    );
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.newsService.findOne({ where: { uuid: id } });
+  async findOne(@Param('id') id: string) {
+    const post = await this.newsService.findOne({
+      where: { uuid: id },
+      relations: { files: true, service: true },
+    });
+    return new GetNewsRdo(
+      post.uuid,
+      post.title,
+      post.text,
+      post.address,
+      post.files[0],
+      post.service,
+    );
   }
 
   // @Patch(':id')

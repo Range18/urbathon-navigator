@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateNewsDto {
   @IsString()
@@ -9,8 +9,4 @@ export class CreateNewsDto {
 
   @IsString()
   readonly address: string;
-
-  @IsString()
-  @IsOptional()
-  preview?: string;
 }
