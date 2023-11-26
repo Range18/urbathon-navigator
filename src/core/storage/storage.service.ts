@@ -95,6 +95,17 @@ export class StorageService extends BaseEntityService<FileEntity> {
   async getFileStream(
     filename: string,
   ): Promise<{ stream: StreamableFile; mimetype: string }> {
+    if (filename === 'default.png') {
+      const readableFile = createReadStream(
+        resolve(storageConfig.path, filename),
+      );
+
+      return {
+        stream: new StreamableFile(readableFile),
+        mimetype: 'image/png',
+      };
+    }
+
     const file = await this.findOne({ where: { filename } });
 
     if (!file) {

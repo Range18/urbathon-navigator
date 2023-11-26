@@ -1,11 +1,12 @@
 import { NewsEntity } from '../../news/entities/news.entity';
+import { postType } from '../types/post.type';
 
 export class GetServiceProfileRdo {
   readonly id: string;
 
   readonly name: string;
 
-  readonly type: string; //Todo Typings
+  readonly type: postType;
 
   readonly description?: string;
 
@@ -17,7 +18,6 @@ export class GetServiceRdo {
 
   readonly name: string;
 
-  readonly type: string; //Todo Typings
-
+  readonly type: postType;
   readonly description?: string;
 }

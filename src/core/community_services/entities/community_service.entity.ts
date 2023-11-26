@@ -9,6 +9,7 @@ import {
 import { BaseEntity } from '../../../common/base.entity';
 import { UserEntity } from '../../users/user.entity';
 import { NewsEntity } from '../../news/entities/news.entity';
+import { postType } from '../types/post.type';
 
 @Entity('community_services')
 export class CommunityServiceEntity extends BaseEntity {
@@ -22,8 +23,8 @@ export class CommunityServiceEntity extends BaseEntity {
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false })
-  type: string; //Todo Typings
+  @Column({ type: 'varchar', nullable: false })
+  type: postType;
 
   @Column({
     type: 'text',

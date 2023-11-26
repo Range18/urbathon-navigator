@@ -1,11 +1,12 @@
 import { IsOptional, IsString } from 'class-validator';
+import { postType } from '../types/post.type';
 
 export class CreateCommunityServiceDto {
   @IsString()
   readonly name: string;
 
   @IsString()
-  readonly type: string;
+  readonly type: postType;
 
   @IsString()
   readonly city: string;
